@@ -6,6 +6,8 @@ Module for text statistics calculation.
 import collections
 import sys
 
+# Temp
+
 def get_char_frequencies(text):
     result = collections.defaultdict(int)
     for char in text:
