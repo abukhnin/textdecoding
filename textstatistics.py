@@ -5,14 +5,24 @@ Module for text statistics calculation.
 
 import collections
 import sys
+import re
 
-# Temp
+def get_item_frequencies(sequence):
+    result = collections.defaultdict(int)
+    for item in sequence:
+        result[item] += 1
+    return result
 
 def get_char_frequencies(text):
-    result = collections.defaultdict(int)
-    for char in text:
-        result[char] += 1
+    return get_item_frequencies(text)
+
+def split_to_words(text):
+    raw_word_list = re.split(r"\W", text, flags=re.UNICODE)
+    result = [word for word in raw_word_list if word] # Get rid of empty items
     return result
+
+def get_word_frequencies(text):
+    return get_item_frequencies(split_to_words(text))
 
 def main():
     print(get_char_frequencies(u"abc"))
