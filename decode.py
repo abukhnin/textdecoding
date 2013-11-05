@@ -2,7 +2,6 @@
 '''
 Module for text decoding.
 '''
-import sys
 
 import textstatistics
 

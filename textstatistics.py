@@ -29,7 +29,7 @@ class Languauge:
     '''
     Class representing particular language with alphabet and dictionary
     '''
-    
+
     def __init__(self, alphabet, dictionary):
         self.__alphabet = alphabet
         self.__dictionary = dictionary
@@ -41,7 +41,7 @@ class Languauge:
         return difflib.SequenceMatcher(None, word1, word2).ratio()
 
     def word_fitness(self, word):
-        return max([self.compare(word, dict_word) 
+        return max([self.compare(word, dict_word)
                     for dict_word in self.__dictionary])
 
 
