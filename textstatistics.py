@@ -6,6 +6,7 @@ Module for text statistics calculation.
 import collections
 import sys
 import re
+import difflib
 
 def get_item_frequencies(sequence):
     result = collections.defaultdict(int)
@@ -23,6 +24,26 @@ def split_to_words(text):
 
 def get_word_frequencies(text):
     return get_item_frequencies(split_to_words(text))
+
+class Languauge:
+    '''
+    Class representing particular language with alphabet and dictionary
+    '''
+    
+    def __init__(self, alphabet, dictionary):
+        self.__alphabet = alphabet
+        self.__dictionary = dictionary
+
+    def get_alphabet(self):
+        return self.__alphabet
+
+    def compare(self, word1, word2):
+        return difflib.SequenceMatcher(None, word1, word2).ratio()
+
+    def word_fitness(self, word):
+        return max([self.compare(word, dict_word) 
+                    for dict_word in self.__dictionary])
+
 
 def main():
     print(get_char_frequencies(u"abc"))
