@@ -8,12 +8,14 @@ import os
 import sys
 import random
 
-root_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
+root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_path)
+print root_path
+print sys.path
 
+import data
 import decode
 import textstatistics
-from test import data
 
 
 class TestDecodeText(unittest.TestCase):

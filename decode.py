@@ -5,15 +5,17 @@ Module for text decoding.
 
 import textstatistics
 
+
 def encode_text(text, code):
     '''
     Encodes the text with a substitution cipher defined with the code.
     Argument "code" is a dictionary with characters as keys 
     and corresponding coding characters as values. 
     For example:
-        code = { 'a': 'z', 'b': 'y' , 'c': 'x' }
+        code = {'a': 'z', 'b': 'y' , 'c': 'x'}
     '''
     return ''
+
 
 def evalutate_decoding(text, language):
     '''
@@ -27,6 +29,7 @@ def evalutate_decoding(text, language):
     for word in words:
         fitness_sum += language.word_fitness(word)
     return fitness_sum / len(words)
+
 
 def decode_text(text, language):
     '''
