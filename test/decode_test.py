@@ -10,8 +10,6 @@ import random
 
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_path)
-print root_path
-print sys.path
 
 import data
 import decode
@@ -19,24 +17,36 @@ import textstatistics
 
 
 class TestDecodeText(unittest.TestCase):
-    def test_decode_text_same_rus(self):
+    def setUp(self):
         original_alphabet = list(u'абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
-        shuffled_alphabet = list(original_alphabet)
+
+        self.original_text = data.QUOTE_FROM_ILF_AND_PETROV
+        alphabet = textstatistics.get_char_frequencies(self.original_text)
+        alphabet = {char: frequency for (char, frequency) in 
+                    alphabet.iteritems() if char in original_alphabet}
+        dictionary = textstatistics.get_word_frequencies(self.original_text)
+        self.language = textstatistics.Languauge(alphabet, dictionary)
+
+        actual_original_alphabet = alphabet.keys()
+        shuffled_alphabet = list(actual_original_alphabet)
         random.seed(1001)
         random.shuffle(shuffled_alphabet)
+        self.code = dict(zip(actual_original_alphabet, shuffled_alphabet))
 
-        code = dict(zip(original_alphabet, shuffled_alphabet))
+    def test_decode_text_same_rus(self):
+        encoded_text = decode.encode_text(self.original_text, self.code)
 
-        original_text = data.QUOTE_FROM_ILF_AND_PETROV
-        encoded_text = decode.encode_text(original_text, code)
-        print 'TestDecodeText::encoded_text:', encoded_text
+        decoded_text = decode.decode_text(encoded_text, self.language)
+        self.assertEqual(self.original_text, decoded_text)
 
-        alphabet = textstatistics.get_char_frequencies(original_text)
-        dictionary = textstatistics.get_word_frequencies(original_text)
-        language = textstatistics.Languauge(alphabet, dictionary)
+    def test_decode_text_extract_rus(self):
+        original_text_words = self.original_text.split()
+        original_extract = ' '.join(
+                    original_text_words[: len(original_text_words) // 2])
+        encoded_extract = decode.encode_text(original_extract, self.code)
 
-        decoded_text = decode.decode_text(encoded_text, language)
-        self.assertEqual(original_text, decoded_text)
+        decoded_extract = decode.decode_text(encoded_extract, self.language)
+        self.assertEqual(original_extract, decoded_extract)
 
 
 class TestEvalutateDecoding(unittest.TestCase):
